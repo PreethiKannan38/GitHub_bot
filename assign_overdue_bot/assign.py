@@ -4,6 +4,9 @@ import time
 from datetime import datetime, timezone
 from github import Github
 
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 GITHUB_TOKEN = os.getenv("GH_TOKEN")
 g = Github(GITHUB_TOKEN)
 
