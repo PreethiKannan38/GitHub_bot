@@ -1,42 +1,62 @@
 import json
 import os
-import time
 from datetime import datetime, timezone
 from github import Github
+import time
 
-env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
+# Set up GitHub token
 GITHUB_TOKEN = os.getenv("GH_TOKEN")
 g = Github(GITHUB_TOKEN)
 
+# Load list of repositories from repos.json
 with open("repos.json") as f:
     repos = json.load(f)
 
-# Load last run time
+# Load last run time from last_run.txt
 if os.path.exists("last_run.txt"):
     with open("last_run.txt", "r") as f:
         last_run = datetime.fromisoformat(f.read().strip())
 else:
+    # If the file does not exist (first run), assume it was run just now
     last_run = datetime.now(timezone.utc)
 
 print(f"Last run: {last_run}")
 
+# Iterate over repositories
 for repo_fullname in repos:
     repo = g.get_repo(repo_fullname)
     issues = repo.get_issues(state="open")
 
-    for issue in issues:
-        comments = issue.get_comments()
-        for comment in comments:
-            if comment.created_at <= last_run:
-                continue
+    # Handle pagination for issues
+    while issues:
+        for issue in issues:
+            comments = issue.get_comments()
 
-            if "/assign me" in comment.body.lower():
-                if issue.assignee is None:
-                    print(f"Assigning {comment.user.login} to issue {issue.number} in {repo.name}")
-                    issue.add_to_assignees(comment.user.login)
+            # Handle pagination for comments
+            while comments:
+                for comment in comments:
+                    # If the comment was created before the last run, skip it
+                    if comment.created_at <= last_run:
+                        continue
 
-# Update last run time
+                    # Assign user if "/assign me" is found and issue is unassigned
+                    if "/assign me" in comment.body.lower():
+                        if issue.assignee is None:
+                            print(f"Assigning {comment.user.login} to issue {issue.number} in {repo.name}")
+                            issue.add_to_assignees(comment.user.login)
+
+                # Handle pagination, moving to the next page of comments if available
+                if comments.has_next_page:
+                    comments = comments.get_page(comments.next_page)
+                else:
+                    break
+
+        # Move to the next page of issues if available
+        if issues.has_next_page:
+            issues = issues.get_page(issues.next_page)
+        else:
+            break
+
+# Update last run time after all comments have been processed
 with open("last_run.txt", "w") as f:
     f.write(datetime.now(timezone.utc).isoformat())
