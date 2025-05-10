@@ -8,21 +8,21 @@ import time
 GITHUB_TOKEN = os.getenv("GH_TOKEN")
 g = Github(GITHUB_TOKEN)
 
-# Load list of repositories from repos.json
+# Load the repositories from repos.json
 with open("repos.json") as f:
     repos = json.load(f)
 
-# Load last run time from last_run.txt
+# Load last run time assign.py finised running from last_run.txt
 if os.path.exists("last_run.txt"):
     with open("last_run.txt", "r") as f:
         last_run = datetime.fromisoformat(f.read().strip())
 else:
-    # If the file does not exist (first run), assume it was run just now
+    # If the file does not exist (this is the first time running), assume it was run just now
     last_run = datetime.now(timezone.utc)
 
 print(f"Last run: {last_run}")
 
-# Iterate over repositories
+# loop through all repositories in SoC
 for repo_fullname in repos:
     repo = g.get_repo(repo_fullname)
     issues = repo.get_issues(state="open")
@@ -35,7 +35,7 @@ for repo_fullname in repos:
             # Handle pagination for comments
             while comments:
                 for comment in comments:
-                    # If the comment was created before the last run, skip it
+                    # If the comment was made before the last run, skip it
                     if comment.created_at <= last_run:
                         continue
 
