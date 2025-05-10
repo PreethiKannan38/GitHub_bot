@@ -24,4 +24,4 @@ jobs:
       - name: Run Assign Bot
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: python assign.py
+        run: python assign_overdue_bot/assign.py
