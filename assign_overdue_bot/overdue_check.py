@@ -6,7 +6,7 @@ from github import Github
 GITHUB_TOKEN = os.getenv("GH_TOKEN")
 g = Github(GITHUB_TOKEN)
 
-with open("repos.json") as f:
+with open("assign_overdue_bot/repos.json") as f:
     repos = json.load(f)
 
 for repo_fullname in repos:
