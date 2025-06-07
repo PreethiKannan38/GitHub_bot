@@ -23,5 +23,5 @@ jobs:
 
       - name: Run Overdue Checker
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: python overdue_check.py
