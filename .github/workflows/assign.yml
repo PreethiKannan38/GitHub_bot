@@ -23,5 +23,5 @@ jobs:
 
       - name: Run Assign Bot
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: python assign_overdue_bot/assign.py
