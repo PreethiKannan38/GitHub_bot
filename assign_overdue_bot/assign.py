@@ -9,7 +9,7 @@ GITHUB_TOKEN = os.getenv("GH_TOKEN")
 g = Github(GITHUB_TOKEN)
 
 # Load the repositories from repos.json
-with open("repos.json") as f:
+with open("assign_overdue_bot/repos.json") as f:
     repos = json.load(f)
 
 # Load last run time assign.py finised running from last_run.txt
