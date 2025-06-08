@@ -15,7 +15,7 @@ with open("assign_overdue_bot/repos.json") as f:
 
 # Load last run time from last_run.txt
 if os.path.exists("assign_overdue_bot/last_run.txt"):
-    with open("last_run.txt", "r") as f:
+    with open("assign_overdue_bot/last_run.txt", "r") as f:
         last_run = datetime.fromisoformat(f.read().strip())
         print("last run time retrived from file")
 else:
@@ -47,6 +47,6 @@ for repo_fullname in repos:
                     issue.add_to_assignees(comment.user.login)
 
 # Update last run time
-with open("last_run.txt", "w") as f:
+with open("assign_overdue_bot/last_run.txt", "w") as f:
     f.write(datetime.now(timezone.utc).isoformat())
     print("last run time written in file")
