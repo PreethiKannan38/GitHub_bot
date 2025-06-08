@@ -5,6 +5,10 @@ on:
     - cron: '0 0 * * *'  # every 24 hours
   workflow_dispatch:
 
+permissions:
+  issues: write  # ✅ Needed to assign issues
+  contents: read 
+
 jobs:
   run-overdue-check:
     runs-on: ubuntu-latest
