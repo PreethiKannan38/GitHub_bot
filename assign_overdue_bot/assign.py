@@ -37,6 +37,7 @@ for repo_fullname in repos:
         for comment in comments:
             print("going through comments")
             if comment.created_at <= last_run:
+                print("comment created in last run")
                 continue
 
             if "/assign me" in comment.body.lower():
