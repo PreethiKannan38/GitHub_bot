@@ -11,13 +11,16 @@ g = Github(GITHUB_TOKEN)
 # Load the repositories from repos.json
 with open("assign_overdue_bot/repos.json") as f:
     repos = json.load(f)
+    print("loaded repos from json files")
 
 # Load last run time from last_run.txt
 if os.path.exists("last_run.txt"):
     with open("last_run.txt", "r") as f:
         last_run = datetime.fromisoformat(f.read().strip())
+        print("last run time retrived from file")
 else:
     last_run = datetime.now(timezone.utc)
+    print("last run time set")
 
 print(f"Last run: {last_run}")
 
@@ -25,9 +28,11 @@ print(f"Last run: {last_run}")
 for repo_fullname in repos:
     repo = g.get_repo(repo_fullname)
     issues = repo.get_issues(state="open")
+    print("got issues from repo")
 
     for issue in issues:
         comments = issue.get_comments()
+        print("got comments from issues")
 
         for comment in comments:
             if comment.created_at <= last_run:
@@ -41,3 +46,4 @@ for repo_fullname in repos:
 # Update last run time
 with open("last_run.txt", "w") as f:
     f.write(datetime.now(timezone.utc).isoformat())
+    print("last run time written in file")
