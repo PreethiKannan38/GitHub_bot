@@ -14,7 +14,7 @@ with open("assign_overdue_bot/repos.json") as f:
     print("loaded repos from json files")
 
 # Load last run time from last_run.txt
-if os.path.exists("last_run.txt"):
+if os.path.exists("assign_overdue_bot/last_run.txt"):
     with open("last_run.txt", "r") as f:
         last_run = datetime.fromisoformat(f.read().strip())
         print("last run time retrived from file")
