@@ -35,10 +35,12 @@ for repo_fullname in repos:
         print("got comments from issues")
 
         for comment in comments:
+            print("going through comments")
             if comment.created_at <= last_run:
                 continue
 
             if "/assign me" in comment.body.lower():
+                print("found /assign me in comments")
                 if issue.assignee is None:
                     print(f"Assigning {comment.user.login} to issue {issue.number} in {repo.name}")
                     issue.add_to_assignees(comment.user.login)
