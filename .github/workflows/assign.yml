@@ -4,7 +4,11 @@ on:
   schedule:
     - cron: '0 * * * *'  # every hour
   workflow_dispatch:
-
+  
+permissions:
+  issues: write  # ✅ Needed to assign issues
+  contents: read 
+  
 jobs:
   run-assign-bot:
     runs-on: ubuntu-latest
