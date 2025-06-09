@@ -45,7 +45,7 @@ for repo_fullname in repos:
 
             if "/assign me" in comment.body.lower():
                 print("found /assign me in comments")
-                if not issue.assignees::
+                if not issue.assignees:
                     print(f"Assigning {comment.user.login} to issue {issue.number} in {repo.name}")
                     issue.add_to_assignees(comment.user.login)
 
