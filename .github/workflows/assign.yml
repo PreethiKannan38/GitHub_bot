@@ -25,7 +25,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      #- name: Run Assign Bot
+        #env:
+         #GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+       # run: python assign_overdue_bot/assign.py
+
       - name: Run Assign Bot
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python assign_overdue_bot/assign.py
