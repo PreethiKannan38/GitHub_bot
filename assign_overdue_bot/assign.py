@@ -5,8 +5,11 @@ from github import Github
 import time
 
 # Set up GitHub token
-GITHUB_TOKEN = os.getenv("GH_TOKEN")
-g = Github(GITHUB_TOKEN)
+#GITHUB_TOKEN = os.getenv("GH_TOKEN")
+#g = Github(GITHUB_TOKEN)
+
+token = os.getenv("GITHUB_TOKEN")
+g = Github(token)
 
 # Load the repositories from repos.json
 with open("assign_overdue_bot/repos.json") as f:
@@ -42,7 +45,7 @@ for repo_fullname in repos:
 
             if "/assign me" in comment.body.lower():
                 print("found /assign me in comments")
-                if issue.assignee is None:
+                if not issue.assignees::
                     print(f"Assigning {comment.user.login} to issue {issue.number} in {repo.name}")
                     issue.add_to_assignees(comment.user.login)
 
