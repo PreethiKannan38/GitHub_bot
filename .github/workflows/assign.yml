@@ -2,7 +2,7 @@ name: Assign Bot
 
 on:
   schedule:
-    - cron: '0 * * * *'  # every hour
+    #- cron: '0 * * * *'  # every hour
   workflow_dispatch:
   
 permissions:
